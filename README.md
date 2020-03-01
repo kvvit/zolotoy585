@@ -117,5 +117,14 @@ sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/privat
 - Для того, чтобы все было честно, установил MySQL сервер и создал базу для бэкапа.
 
 3. Задание на git
-- Для данного задания буду использовать свой репозиторий с скриптами и файлами для данного задания.
+- Для данного задания буду использовать свой репозиторий с скриптами и файлами для данного теста.
+```bash
+git clone https://github.com/kvvit/zolotoy585.git
+git checkout -b test-585
+cat /etc/fstab > git-done
+git add git-done
+git commit -m "Added git-done to branch test-585"
+git checkout master
+git merge test-585
+```
 

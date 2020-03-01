@@ -9,7 +9,6 @@ services:
       MYSQL_ROOT_PASSWORD: Zolotoy585
     volumes:
       - ./data:/var/lib/mysql/
-      - /var/www/devops/:/var/www/devops/
     networks:
       - net1
 
@@ -17,12 +16,20 @@ services:
     image: phpmyadmin/phpmyadmin
     container_name: phpadmin
     restart: always
+    environment:
+      PMA_HOST: mysql
     ports:
       - "11080:80"
     depends_on:
       - mysql
+    networks:
+      - net1
+
+  myphp:
+    image: php:7.3-fpm
+    restart: always
     volumes:
-      - /var/www/devops/:/var/www/devops/
+      - /var/www/devops/:/var/www/html/
     networks:
       - net1
 
@@ -34,11 +41,10 @@ services:
       - "11090:80"
     depends_on:
       - mysql
-      - phpadmin
+      - myphp
     volumes:
-      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
-      - /var/www/devops/:/var/www/devops/
-    command: "/bin/sh -c 'while :; do sleep 6h & wait $${!}; nginx -s reload; done & nginx -g \"daemon off;\"'"
+      - ./nginx/phpadmin.conf:/etc/nginx/conf.d/default.conf
+      - /var/www/devops/:/var/www/html/
     networks:
       - net1
 

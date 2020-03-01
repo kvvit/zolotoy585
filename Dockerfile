@@ -3,7 +3,8 @@ FROM debian:10
 RUN apt-get update && apt-get upgrade -y && \
 apt-get -y install php-fpm
 
-WORKDIR /var/www
+COPY . /var/www/html
 
-CMD ["php7.3"]
+WORKDIR /var/www/html
 
+CMD ["php7.3", "./index.php"]
